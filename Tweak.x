@@ -150,8 +150,8 @@ inline static SBHUDWindow* hudWindowForHudController(SBHUDController *const HUDC
 
 		view.frame = CGRectMake(UIScreen.mainScreen._referenceBounds.size.width, -2, 10, 200); // put the popout view on the other side of the screen where the physical buttons are on an ipad
 	} else {
-		// NSData *const data = [NSData dataWithContentsOfFile:JBROOT_PATH_NSSTRING(@"/Library/Application Support/PopOutButtonsResources/deviceVolumeButtonPositioning.plist")];
-		NSData *const data = [NSData dataWithContentsOfFile:@"/opt/simject/Library/Application Support/PopOutButtonsResources/deviceVolumeButtonPositioning.plist"];
+		NSData *const data = [NSData dataWithContentsOfFile:JBROOT_PATH_NSSTRING(@"/Library/Application Support/PopOutButtonsResources/deviceVolumeButtonPositioning.plist")];
+		// NSData *const data = [NSData dataWithContentsOfFile:@"/opt/simject/Library/Application Support/PopOutButtonsResources/deviceVolumeButtonPositioning.plist"];
 		NSDictionary *const deviceVolBtnPositionDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:nil error:nil];
         NSString *const modelIDstr = [UIDevice _pob_deviceMachine];
 

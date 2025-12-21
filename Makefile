@@ -2,15 +2,13 @@ TARGET := iphone:clang:16.5:13.0
 # TARGET = simulator:clang::16.0
 # export ARCHS = x86_64 i386
 
-# export SYSROOT = $(THEOS)/sdks/iPhoneOS16.5.sdk
-# export ARCHS = arm64 arm64e
-# DEBUG = 0
+export SYSROOT = $(THEOS)/sdks/iPhoneOS16.5.sdk
+export ARCHS = arm64 arm64e
+DEBUG = 0
 
-export TARGET := simulator:clang:13.0:13.0
-SYSROOT=$(THEOS)/sdks/iPhoneSimulator17.2.sdk
-export ARCHS = arm64 x86_64
-
-# ADDITIONAL_LDFLAGS = -arch x86_64
+# export TARGET := simulator:clang:13.0:13.0
+# SYSROOT=$(THEOS)/sdks/iPhoneSimulator17.2.sdk
+# export ARCHS = arm64 x86_64
 
 include $(THEOS)/makefiles/common.mk
 
