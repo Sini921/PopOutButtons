@@ -1,4 +1,4 @@
-#import <AudioToolbox/AudioToolbox.h>
+// #import <AudioToolbox/AudioToolbox.h>
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -7,6 +7,40 @@
 #import <sys/utsname.h>
 #import <Foundation/NSDistributedNotificationCenter.h>
 #import <GcUniversal/GcColorPickerUtils.h>
+
+// static UIColor* returnUIColorForHex(NSString *hexString) { //thx gpt
+//     if ([hexString hasPrefix:@"#"]) {
+//         hexString = [hexString substringFromIndex:1];
+//     } else if ([hexString hasPrefix:@"0x"]) {
+//         hexString = [hexString substringFromIndex:2];
+//     }
+    
+//     NSUInteger length = [hexString length];
+//     if (length != 6 && length != 8) {
+//         return nil; 
+//     }
+    
+//     unsigned rgbValue = 0;
+//     NSScanner *scanner = [NSScanner scannerWithString:hexString];
+//     if (![scanner scanHexInt:&rgbValue]) {
+//         return nil;
+//     }
+    
+//     CGFloat red, green, blue, alpha;
+//     if (length == 6) {
+//         red = ((rgbValue & 0xFF0000) >> 16) / 255.0;
+//         green = ((rgbValue & 0x00FF00) >> 8) / 255.0;
+//         blue = (rgbValue & 0x0000FF) / 255.0;
+//         alpha = 1.0;
+//     } else {
+//         red = ((rgbValue & 0xFF000000) >> 24) / 255.0;
+//         green = ((rgbValue & 0x00FF0000) >> 16) / 255.0;
+//         blue = ((rgbValue & 0x0000FF00) >> 8) / 255.0;
+//         alpha = (rgbValue & 0x000000FF) / 255.0;
+//     }
+    
+//     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+// }
 
 @interface UIDevice (PopOutButtons)
 + (NSString *)_pob_deviceMachine;
@@ -87,7 +121,8 @@
 @end
 
 @interface SBHUDController : NSObject
-- (SBHUDWindow *)hudWindow;
+- (SBHUDWindow *)HUDWindow; // ios 17+
+- (SBHUDWindow *)hudWindow; // ios <17 🤦‍♂️
 - (BOOL)anyHUDsVisible;
 @end
 

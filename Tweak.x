@@ -1,7 +1,5 @@
 #import "Tweak.h"
 
-static SBHUDWindow *hudWindow = nil;
-
 const static CGFloat defaultButtonHeight = 85;
 
 static CGFloat volUpButtonYOffset = 0.0f;
@@ -26,11 +24,13 @@ static UIColor *globalBorderColor = nil;
 
 static unsigned int invisibleToScreenCaptures = 0;
 
+
 static void updatePrefs(void) {	
 	NSDictionary *const prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.teslaman3092.popoutbuttonsprefs"];
 
 	invisibleToScreenCaptures = (prefs && [prefs objectForKey:@"invisibleToScreenCaptures"] ? [[prefs valueForKey:@"invisibleToScreenCaptures"] boolValue] : YES ) ? (1 << 1) | (1 << 4) : 0;
 	globalBorderColor = [GcColorPickerUtils colorFromDefaults:@"com.teslaman3092.popoutbuttonsprefs" withKey:@"globalBorderColor" fallback:@"5C5C5CFF"];
+	// globalBorderColor = ([prefs objectForKey:@"globalBorderColor"] ? returnUIColorForHex([prefs objectForKey:@"globalBorderColor"]) : returnUIColorForHex(@"000000")); 
 	globalBorderWidth = [prefs objectForKey:@"globalBorderWidth"] ? [[prefs valueForKey:@"globalBorderWidth"] floatValue] : 0.2;
 	globalHapticsWithID = [prefs objectForKey:@"globalHapticsWithID"] ? [[prefs valueForKey:@"globalHapticsWithID"] floatValue] : 1519;
 	globalHapticsOnBtnRelease = (prefs && [prefs objectForKey:@"globalHapticsOnBtnRelease"] ? [[prefs valueForKey:@"globalHapticsOnBtnRelease"] boolValue] : NO );
@@ -38,6 +38,10 @@ static void updatePrefs(void) {
 	volUpPopoutColor = [GcColorPickerUtils colorFromDefaults:@"com.teslaman3092.popoutbuttonsprefs" withKey:@"volUpPopoutColor" fallback:@"000000"];
 	volDownPopoutColor = [GcColorPickerUtils colorFromDefaults:@"com.teslaman3092.popoutbuttonsprefs" withKey:@"volDownPopoutColor" fallback:@"000000"];
 	lockPopoutColor = [GcColorPickerUtils colorFromDefaults:@"com.teslaman3092.popoutbuttonsprefs" withKey:@"lockPopoutColor" fallback:@"000000"];
+
+	// volUpPopoutColor = ([prefs objectForKey:@"volUpPopoutColor"] ? returnUIColorForHex([prefs objectForKey:@"volUpPopoutColor"]) : returnUIColorForHex(@"000000")); 
+  	// volDownPopoutColor = ([prefs objectForKey:@"volDownPopoutColor"] ? returnUIColorForHex([prefs objectForKey:@"volDownPopoutColor"]) : returnUIColorForHex(@"000000")); 
+  	// lockPopoutColor = ([prefs objectForKey:@"lockPopoutColor"] ? returnUIColorForHex([prefs objectForKey:@"lockPopoutColor"]) : returnUIColorForHex(@"000000")); 
 
 	SpringBoard *const springBoard = (SpringBoard *)[%c(SpringBoard) sharedApplication];
 	POBRootViewContoller *const pobRootVC = (POBRootViewContoller *)[springBoard _pobWindow].rootViewController;
@@ -51,10 +55,16 @@ static void updatePrefs(void) {
 	SpringBoard *const springBoard = (SpringBoard *)[%c(SpringBoard) sharedApplication];
 	POBRootViewContoller *const pobRootVC = (POBRootViewContoller *)[springBoard _pobWindow].rootViewController;
 	[pobRootVC.lockButtonLayer updateStateWithShowing:self.isButtonDown];
-	if(self.isButtonDown || globalHapticsOnBtnRelease) AudioServicesPlaySystemSound(globalHapticsWithID);
+	// if(self.isButtonDown || globalHapticsOnBtnRelease) AudioServicesPlaySystemSound(globalHapticsWithID);
 }
 
 %end
+
+inline static SBHUDWindow* hudWindowForHudController(SBHUDController *const HUDController){
+	if([HUDController respondsToSelector:@selector(hudWindow)]) return [HUDController hudWindow];
+	else if([HUDController respondsToSelector:@selector(HUDWindow)]) return [HUDController HUDWindow];
+	return nil;
+}
 
 %hook SBVolumeControl
 
@@ -69,7 +79,7 @@ static void updatePrefs(void) {
 		SBVolumeButtonEventMapper *const eventMapper = [springBoard volumeButtonEventMapper];
 		reverseButtons = (eventMapper.effectiveInterfaceOrientation == 2 || eventMapper.effectiveInterfaceOrientation == 3);
 	}else if(down || globalHapticsOnBtnRelease){
-		AudioServicesPlaySystemSound(globalHapticsWithID);
+		// AudioServicesPlaySystemSound(globalHapticsWithID);
 	}
 
 	if (buttonType == (reverseButtons ? 103 : 102)) [pobRootVC.volUpLayer updateStateWithShowing:down];
@@ -80,10 +90,10 @@ static void updatePrefs(void) {
 
 	SBHUDController *const HUDController = [self valueForKey:@"_hudController"];
 	if([HUDController anyHUDsVisible]){
-		[[HUDController hudWindow] _pob_setHUDShiftOut:down];
+		[hudWindowForHudController(HUDController) _pob_setHUDShiftOut:down];
 	}else{
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.05 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{    
-			if([HUDController anyHUDsVisible]) [[HUDController hudWindow] _pob_setHUDShiftOut:down];
+			if([HUDController anyHUDsVisible]) [hudWindowForHudController(HUDController) _pob_setHUDShiftOut:down];
 		});
 	}
 }
@@ -140,7 +150,8 @@ static void updatePrefs(void) {
 
 		view.frame = CGRectMake(UIScreen.mainScreen._referenceBounds.size.width, -2, 10, 200); // put the popout view on the other side of the screen where the physical buttons are on an ipad
 	} else {
-		NSData *const data = [NSData dataWithContentsOfFile:JBROOT_PATH_NSSTRING(@"/Library/Application Support/PopOutButtonsResources/deviceVolumeButtonPositioning.plist")];
+		// NSData *const data = [NSData dataWithContentsOfFile:JBROOT_PATH_NSSTRING(@"/Library/Application Support/PopOutButtonsResources/deviceVolumeButtonPositioning.plist")];
+		NSData *const data = [NSData dataWithContentsOfFile:@"/opt/simject/Library/Application Support/PopOutButtonsResources/deviceVolumeButtonPositioning.plist"];
 		NSDictionary *const deviceVolBtnPositionDict = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:nil error:nil];
         NSString *const modelIDstr = [UIDevice _pob_deviceMachine];
 
@@ -157,7 +168,7 @@ static void updatePrefs(void) {
 		view.frame = CGRectMake(0, 0, 5, 200);
 		
 		if ([[UIDevice currentDevice].model isEqualToString:@"iPod touch"] || [modelIDstr containsString:@"iPhone8,4"]) {
-			self.lockButtonLayer.hidden = YES;
+	 		self.lockButtonLayer.hidden = YES;
 		}
 	}
 

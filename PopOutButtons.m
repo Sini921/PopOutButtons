@@ -11,12 +11,13 @@
         NSDictionary *const prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.teslaman3092.popoutbuttonsprefs"];
         self.defaultLineWidth = [prefs objectForKey:@"globalBorderWidth"] ? [[prefs valueForKey:@"globalBorderWidth"] floatValue] : 0;
         self.strokeColor = [GcColorPickerUtils colorFromDefaults:@"com.teslaman3092.popoutbuttonsprefs" withKey:@"globalBorderColor" fallback:@"1a1a1a"].CGColor;
+        // self.strokeColor = ([prefs objectForKey:@"globalBorderColor"] ? returnUIColorForHex([prefs objectForKey:@"globalBorderColor"]) : returnUIColorForHex(@"000000")).CGColor; 
         self.lineWidth = 0;
     }
 
     return self;
 }
-
+ 
 - (void)updateStateWithShowing:(BOOL)showing {
     self.isShowing = showing;
 

@@ -25,10 +25,10 @@
 			<string>PSSwitchCell</string>
 			<key>cellClass</key>
 			<string>PSSubtitleSwitchTableCell</string>
-			<key>default</key>
-			<true/>
 			<key>cellSubtitleText</key>
 			<string>Respring required</string>
+			<key>default</key>
+			<true/>
 			<key>defaults</key>
 			<string>com.teslaman3092.popoutbuttonsprefs</string>
 			<key>key</key>

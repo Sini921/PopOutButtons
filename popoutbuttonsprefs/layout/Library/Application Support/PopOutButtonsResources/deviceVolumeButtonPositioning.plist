@@ -236,6 +236,19 @@
 			<key>volumeUpButtonY</key>
 			<integer>77</integer>
 		</dict>
+		<key>iPhone10,2</key>
+		<dict>
+			<key>chromeIdentifier</key>
+			<string>com.apple.dt.devicekit.chrome.phone</string>
+			<key>deviceName</key>
+			<string>iPhone 8 Plus.simdevicetype</string>
+			<key>powerButtonY</key>
+			<integer>77</integer>
+			<key>volumeDownButtonY</key>
+			<integer>158</integer>
+			<key>volumeUpButtonY</key>
+			<integer>77</integer>
+		</dict>
 		<key>iPhone10,6</key>
 		<dict>
 			<key>chromeIdentifier</key>
@@ -645,6 +658,19 @@
 			<string>com.apple.dt.devicekit.chrome.phone</string>
 			<key>deviceName</key>
 			<string>iPhone 7 Plus.simdevicetype</string>
+			<key>powerButtonY</key>
+			<integer>77</integer>
+			<key>volumeDownButtonY</key>
+			<integer>158</integer>
+			<key>volumeUpButtonY</key>
+			<integer>77</integer>
+		</dict>
+		<key>iPhone9,3</key>
+		<dict>
+			<key>chromeIdentifier</key>
+			<string>com.apple.dt.devicekit.chrome.phone</string>
+			<key>deviceName</key>
+			<string>iPhone 7.simdevicetype</string>
 			<key>powerButtonY</key>
 			<integer>77</integer>
 			<key>volumeDownButtonY</key>

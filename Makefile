@@ -1,10 +1,14 @@
-TARGET := iphone:clang:17.0:13.0
+TARGET := iphone:clang:16.5:13.0
 # TARGET = simulator:clang::16.0
 # export ARCHS = x86_64 i386
 
-export SYSROOT = $(THEOS)/sdks/iPhoneOS14.5.sdk
-export ARCHS = arm64 arm64e
-DEBUG = 0
+# export SYSROOT = $(THEOS)/sdks/iPhoneOS16.5.sdk
+# export ARCHS = arm64 arm64e
+# DEBUG = 0
+
+export TARGET := simulator:clang:13.0:13.0
+SYSROOT=$(THEOS)/sdks/iPhoneSimulator17.2.sdk
+export ARCHS = arm64 x86_64
 
 # ADDITIONAL_LDFLAGS = -arch x86_64
 
@@ -14,17 +18,17 @@ INSTALL_TARGET_PROCESSES = SpringBoard
 
 TWEAK_NAME = PopOutButtons
 
-PopOutButtons_FILES = $(wildcard *.x *.m )
+PopOutButtons_FILES = $(wildcard *.x *.m *.c )
 PopOutButtons_CFLAGS = -fobjc-arc
 PopOutButtons_LIBRARIES = gcuniversal 
 
 include $(THEOS_MAKE_PATH)/tweak.mk
-SUBPROJECTS += popoutbuttonsprefs
+SUBPROJECTS += popoutbuttonsPrefs
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
-setup:: clean all
-	@rm -f /opt/simject/$(TWEAK_NAME).dylib
-	@cp -v $(THEOS_OBJ_DIR)/$(TWEAK_NAME).dylib /opt/simject/$(TWEAK_NAME).dylib
-	@codesign -f -s - /opt/simject/$(TWEAK_NAME).dylib
-	@cp -v $(PWD)/$(TWEAK_NAME).plist /opt/simject
+# setup:: clean all
+# 	@rm -f /opt/simject/$(TWEAK_NAME).dylib
+# 	@cp -v $(THEOS_OBJ_DIR)/$(TWEAK_NAME).dylib /opt/simject/$(TWEAK_NAME).dylib
+# 	@codesign -f -s - /opt/simject/$(TWEAK_NAME).dylib
+# 	@cp -v $(PWD)/$(TWEAK_NAME).plist /opt/simject
 
