@@ -1,5 +1,6 @@
 # TARGET := iphone:clang:latest:13.0
 # SYSROOT=$(THEOS)/sdks/iPhoneSimulator17.2.sdk
+.NOTPARALLEL:
 
 include $(THEOS)/makefiles/common.mk
 

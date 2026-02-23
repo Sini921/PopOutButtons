@@ -55,7 +55,7 @@ static void updatePrefs(void) {
 	SpringBoard *const springBoard = (SpringBoard *)[%c(SpringBoard) sharedApplication];
 	POBRootViewContoller *const pobRootVC = (POBRootViewContoller *)[springBoard _pobWindow].rootViewController;
 	[pobRootVC.lockButtonLayer updateStateWithShowing:self.isButtonDown];
-	// if(self.isButtonDown || globalHapticsOnBtnRelease) AudioServicesPlaySystemSound(globalHapticsWithID);
+	if(self.isButtonDown || globalHapticsOnBtnRelease) AudioServicesPlaySystemSound(globalHapticsWithID);
 }
 
 %end
@@ -79,7 +79,7 @@ inline static SBHUDWindow* hudWindowForHudController(SBHUDController *const HUDC
 		SBVolumeButtonEventMapper *const eventMapper = [springBoard volumeButtonEventMapper];
 		reverseButtons = (eventMapper.effectiveInterfaceOrientation == 2 || eventMapper.effectiveInterfaceOrientation == 3);
 	}else if(down || globalHapticsOnBtnRelease){
-		// AudioServicesPlaySystemSound(globalHapticsWithID);
+		AudioServicesPlaySystemSound(globalHapticsWithID);
 	}
 
 	if (buttonType == (reverseButtons ? 103 : 102)) [pobRootVC.volUpLayer updateStateWithShowing:down];
